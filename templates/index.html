@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Прокат автомобилей</title>
+	<link rel='stylesheet' type='text/css' href='{{ data.bootstrap_css }}' />
+	<script src='{{ data.jquery_js }}' type='text/javascript'></script>
+	<script src='{{ data.bootstrap_js }}' type='text/javascript'></script>
+	<script src='{{ data.inputmask_js }}' type='text/javascript'></script>
+	<script src='{{ data.main_js }}' type='text/javascript'></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Прокат автомобилей<button class="btn btn-primary pull-right" id="addAutoButton">Добавить автомобиль</button></h3>
+			</div>
+			<div class="col-lg-12">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+				    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">История проката</a></li>
+				    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Аналитика</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="home">
+				    	<h3>Список записей истории проката</h3>
+				    	<div class="col-lg-12">
+							<button class="btn btn-primary" id="addRentButton">Добавить</button>
+							<button class="btn btn-success" id="refreshButton">Обновить</button>
+							<button class="btn btn-default" id="refreshCarButton">По всем автомобилям</button>
+						</div>
+						<div class="col-lg-12">
+							<label for="historyCar">Выбрать автомобиль</label>
+					    	<select id="historyCar" class="form-control">
+					    		<option disabled selected value>-- Автомобиль --</option>
+							</select>
+						</div>
+						<div class="col-lg-12">
+							<table class="table table-striped" id="rentTable">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Автомобиль</th>
+										<th>Арендатор</th>
+										<th>Дата взятия</th>
+										<th>Дата возврата</th>
+										<th>Пункт взятия</th>
+										<th>Пункт возврата</th>
+									</tr>
+								</thead>
+								<tbody id="rentTableBody"></tbody>
+							</table>
+						</div>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="profile">
+				    	<div class="col-lg-12">
+				    		<h3>Среднее время проката по маркам автомобилей</h3>
+				    		<table class="table table-striped" id="brandTable">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Марка</th>
+										<th>Среднее время проката (дней)</th>
+									</tr>
+								</thead>
+								<tbody id="brandTableBody"></tbody>
+							</table>
+				    	</div>
+				    	<div class="col-lg-12">
+				    		<h3>Среднее время по маршрутам (дней)</h3>
+				    		<table class="table table-striped" id="placeTable">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Пункт взятия</th>
+										<th>Пункт возврата</th>
+										<th>Среднее время</th>
+									</tr>
+								</thead>
+								<tbody id="placeTableBody"></tbody>
+							</table>
+				    	</div>
+				    </div>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<div class="modal fade" id="addRentModal" tabindex="-1" role="dialog" aria-labelledby="addRentLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addRentLabel">Добавить запись</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentCar">Автомобиль</label>
+			    	<select id="rentCar" class="form-control addRentField">
+			    		<option disabled selected value>-- Автомобиль --</option>
+					</select>
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentRenter">Арендатор</label>
+			    	<input type="text" class="form-control addRentField" id="rentRenter" />
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentBegDate">Дата взятия</label>
+			    	<input type="text" class="form-control addRentField" id="rentBegDate" />
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentEndDate">Дата возврата</label>
+			    	<input type="text" class="form-control addRentField" id="rentEndDate" />
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentStartPlace">Пункт взятия</label>
+			    	<select id="rentStartPlace" class="form-control addRentField">
+			    		<option disabled selected value>-- Пункт взятия --</option>
+					</select>
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="rentFinishPlace">Пункт возврата</label>
+			    	<select id="rentFinishPlace" class="form-control addRentField">
+			    		<option disabled selected value>-- Пункт возврата --</option>
+					</select>
+			  	</div>
+          	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" id="submitRent">Сохранить запись</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="addAutoModal" tabindex="-1" role="dialog" aria-labelledby="addAutoLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addAutoLabel">Добавить автомобиль</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="autoBrand">Марка</label>
+			    	<select id="autoBrand" class="form-control addAutoField">
+			    		<option disabled selected value>-- Марка --</option>
+					</select>
+			  	</div>
+          	</div>
+          	<div class="col-md-12">
+	          	<div class="form-group">
+			    	<label for="autoNumber">Номер</label>
+			    	<input type="text" class="form-control addAutoField" id="autoNumber" />
+			  	</div>
+          	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" id="submitAuto">Сохранить автомобиль</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog2">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title modmytitle text-center" id="myModalLabel2">Запись успешно сохранена!</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
