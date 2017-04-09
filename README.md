@@ -1,7 +1,9 @@
 # RentCarApp
 Веб приложение для ведения учета по прокату автомобилей
 
-Приложение реализовано с использованием <a href="http://flask.pocoo.org/">Flask</a> и <a href="https://github.com/aio-libs/aiomysql">aiomysql</a>
+Приложение реализовано с использованием 
+<a href="http://flask.pocoo.org/">Flask</a> как наиболее простого фреймворка для создания веб-приложения 
+и <a href="https://github.com/aio-libs/aiomysql">aiomysql</a> для реализации работы с БД с использованием модуля asyncio
 
 В качестве БД использована MySQL
 
