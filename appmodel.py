@@ -7,7 +7,7 @@ class AppModel:
         self.conn_host = '127.0.0.1'
         self.conn_port = 3306
         self.conn_user = 'root'
-        self.conn_pass = 'fktrc'
+        self.conn_pass = ''
         self.conn_db = 'rentdb'
 
     def doQuery(self,query,insert=False):
